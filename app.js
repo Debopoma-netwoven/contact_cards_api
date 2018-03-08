@@ -39,7 +39,7 @@ app.get('/ContactList', (req, res) => {
         res.send(results);
         // send HTML file populated with quotes here
     })
-})
+}) 
 
 
 app.post('/ContactList', (req, res) => {
@@ -66,9 +66,10 @@ app.put('/ContactList', function (req, res) {
     var updateId = req.body.id;
     var myquery = { _id: updateId };
     var newvalues = { $set:  updateObject};
-    db.collection("ContactList").updateOne(myquery, newvalues, function (err, res) {
-        if (err) throw err;
+    db.collection("ContactList").updateOne(myquery, newvalues, function (err, result) {
+        if (err) return console.log(err);
         console.log("1 document updated");
+        res.send((result.modifiedCount === 1) ? { msg: 'Updated' } : { msg: 'error: ' + err });
     });
 
 });
